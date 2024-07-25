@@ -35,4 +35,16 @@ test.describe('Login page test cases', () => {
     expect(page.getByText('Required').first()).toBeVisible();
     expect(page.getByText('Required').nth(1)).toBeVisible();
   })
+
+  test('Verify that if invalid email id is provided then a validation appears', async ({page}) => {
+    await page.locator('[data-test-id="input-email"]').getByRole('textbox').fill('invalidEmail');
+    await page.locator('[data-test-id="input-password"]').getByRole('textbox').click();
+    expect(page.getByText('Email not valid')).toBeVisible();
+  })
+
+  test('Verify that if password is too short then a validation appears', async ({page}) => {
+    await page.locator('[data-test-id="input-password"]').getByRole('textbox').fill('pass');
+    await page.locator('[data-test-id="input-email"]').getByRole('textbox').click();
+    expect(page.getByText('Password too short')).toBeVisible();
+  })
 })
